@@ -1,0 +1,34 @@
+---
+title: "MTH6139 Time Series"
+subtitle: "Coursework 1"
+author:
+- name: Tahrim Chowdhury
+date: "March 2024"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Load the prophet library
+library(prophet)
+
+# Load the data
+covid <- read.csv("https://raw.githubusercontent.com/facebook/prophet/main/examples/example_pedestrians_covid.csv")
+
+# Create a dataframe with time column ds and data column y
+covid.df <- data.frame(ds=covid$ds, y=covid$y)
+
+# Fit the prophet model
+prophet_model <- prophet(covid.df)
+
+# Create future dates for forecasting 
+forecast <- make_future_dataframe(prophet_model, periods = 8)
+
+# Make predictions
+predictions <- predict(prophet_model, forecast)
+
+# Display forecast
+plot(prophet_model, predictions)
+
+
